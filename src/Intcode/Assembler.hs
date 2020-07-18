@@ -10,6 +10,7 @@ import           Data.Function ((&))
 import           Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as HashMap
 import           Data.Text (Text)
+import qualified Data.Text as Text
 import           Data.Vector.Unboxed (Vector, (//))
 import qualified Data.Vector.Unboxed as Vector
 
@@ -157,7 +158,14 @@ modeFlags args = foldl' pushFlag 0 $ zip [0..] args
 applyDirective :: Directive -> [Literal] -> CodeGen ()
 applyDirective (D "org") [I pos] = seek pos
 applyDirective (D "org") _ = addError (InvalidDirectiveArgs "org" ["address"])
+applyDirective (D "data") args = assembleData args
 applyDirective (D directive) _ = addError (InvalidDirective directive)
+
+assembleData :: [Literal] -> CodeGen ()
+assembleData args = emit (concatMap toData args)
+  where
+    toData (I value) = [value]
+    toData (T value) = map fromEnum (Text.unpack value)
 
 -- | Resolve references to labels by replacing them with their addresses.
 --

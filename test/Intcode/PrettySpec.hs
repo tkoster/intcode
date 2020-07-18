@@ -31,6 +31,10 @@ spec =
       pretty [Line (Just $ L "label") (Just $ Instruction (M "add") [RelativeNumber 1, ImmediateNumber 2, Label (L "three")]) (Just $ C "comment")]
         `shouldBe` "label:\tadd 1,R #2 three ; comment\n"
 
+    it "renders a data directive" $
+      pretty [Line Nothing (Just $ Directive (D "data") [I 1, T "hello", I 2]) Nothing]
+        `shouldBe` ".data 1 \"hello\" 2\n"
+
     it "renders the quine program (parse-pretty round trip)" $ do
       quineSource <- Text.readFile "test/quine.s"
       let Right quineAST = parse quineSource

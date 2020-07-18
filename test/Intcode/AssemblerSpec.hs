@@ -12,6 +12,10 @@ import           Intcode.Syntax
 spec :: Spec
 spec = describe "assemble" $ do
 
+  it "assembles data" $ do
+    let program = parseThrow ".data 1 2 3 \"hello\" 4 5"
+    assemble program `shouldBe` Right [1,2,3,104,101,108,108,111,4,5]
+
   it "reports an error when a label is undefined" $ do
     let program = parseThrow "bt 0 nonexistentlabel"
     assemble program `shouldBe` Left [UndefinedLabel "nonexistentlabel"]

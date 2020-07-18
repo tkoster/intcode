@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8d709b0c9ed696d94ab98f9cff2f887b540f6dbf72fbda4c5c57572581925ff9
+-- hash: 8888effd3383de4cfb0889eb37491353d7581393ac8cfa9e5fe45a2c7a55ede7
 
 name:           intcode
 version:        0.1.0.0
@@ -29,6 +29,7 @@ source-repository head
 library
   exposed-modules:
       Intcode.Assembler
+      Intcode.Disassembler
       Intcode.Pretty
       Intcode.Syntax
   other-modules:
@@ -50,6 +51,7 @@ test-suite intcode-test
   main-is: Spec.hs
   other-modules:
       Intcode.AssemblerSpec
+      Intcode.DisassemblerSpec
       Intcode.PrettySpec
       Intcode.SyntaxSpec
       Paths_intcode
