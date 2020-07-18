@@ -1,0 +1,41 @@
+name:       intcode
+version:    0.1.0.0
+license:    MIT
+github:     tkoster/intcode
+author:     Thomas Koster
+maintainer: Thomas Koster
+copyright:  "2020 Thomas Koster"
+synopsis:   Intcode assembler
+
+extra-source-files:
+- README.md
+- test/*.s
+
+description: An assembler for the Intcode machine language from Advent Of Code 2019.
+
+dependencies:
+- base >= 4.7 && < 5
+- megaparsec
+- mtl
+- text
+- unordered-containers
+- vector
+
+ghc-options:
+- -Wall
+
+library:
+  source-dirs: src
+
+tests:
+  intcode-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    dependencies:
+    - hspec
+    - hspec-discover
+    - hspec-expectations
+    - intcode

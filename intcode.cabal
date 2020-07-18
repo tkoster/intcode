@@ -1,0 +1,70 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 8d709b0c9ed696d94ab98f9cff2f887b540f6dbf72fbda4c5c57572581925ff9
+
+name:           intcode
+version:        0.1.0.0
+synopsis:       Intcode assembler
+description:    An assembler for the Intcode machine language from Advent Of Code 2019.
+homepage:       https://github.com/tkoster/intcode#readme
+bug-reports:    https://github.com/tkoster/intcode/issues
+author:         Thomas Koster
+maintainer:     Thomas Koster
+copyright:      2020 Thomas Koster
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    test/quine.s
+
+source-repository head
+  type: git
+  location: https://github.com/tkoster/intcode
+
+library
+  exposed-modules:
+      Intcode.Assembler
+      Intcode.Pretty
+      Intcode.Syntax
+  other-modules:
+      Paths_intcode
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      base >=4.7 && <5
+    , megaparsec
+    , mtl
+    , text
+    , unordered-containers
+    , vector
+  default-language: Haskell2010
+
+test-suite intcode-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Intcode.AssemblerSpec
+      Intcode.PrettySpec
+      Intcode.SyntaxSpec
+      Paths_intcode
+  hs-source-dirs:
+      test
+  ghc-options: -Wall -threaded -rtsopts
+  build-depends:
+      base >=4.7 && <5
+    , hspec
+    , hspec-discover
+    , hspec-expectations
+    , intcode
+    , megaparsec
+    , mtl
+    , text
+    , unordered-containers
+    , vector
+  default-language: Haskell2010
