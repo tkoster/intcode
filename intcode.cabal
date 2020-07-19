@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6f21591c5e268836d365f281e9b1ffdd75768ef78986e7857d34862a6ea413a6
+-- hash: 525c7ebb05b782da2da7cf529fcad9214d96910a84f5c75b2e9e115869719132
 
 name:           intcode
 version:        0.1.0.0
@@ -31,7 +31,9 @@ library
       Intcode.Assembler
       Intcode.Disassembler
       Intcode.Pretty
+      Intcode.Reader
       Intcode.Syntax
+      Intcode.Writer
   other-modules:
       Paths_intcode
   hs-source-dirs:

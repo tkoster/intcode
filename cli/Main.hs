@@ -2,22 +2,17 @@
 
 module Main (main) where
 
-import           Data.Char (isSpace)
 import           Data.Maybe (fromMaybe)
-import           Data.Text (Text)
-import qualified Data.Text as Text
 import qualified Data.Text.IO as Text
-import qualified Data.Text.Read as Text
-import           Data.Traversable (sequence)
-import           Data.Vector.Unboxed (Vector)
-import qualified Data.Vector.Unboxed as Vector
 import           System.Environment (getArgs)
 import           System.IO (Handle, IOMode(ReadMode, WriteMode), hPutStrLn, stderr, stdin, stdout, withFile)
 
 import           Intcode.Assembler
 import           Intcode.Disassembler
 import           Intcode.Pretty
+import           Intcode.Reader
 import           Intcode.Syntax
+import           Intcode.Writer
 
 main :: IO ()
 main = do
@@ -61,24 +56,13 @@ cliAssemble hin hout = do
     Right source ->
       case assemble source of
         Left err -> hPutStrLn stderr (show err)
-        Right program -> hPutStrLn hout (show program)
+        Right program -> Text.hPutStrLn hout (writeText program)
 
 cliDisassemble :: Handle -> Handle -> IO ()
 cliDisassemble hin hout = do
   input <- Text.hGetContents hin
-  case readIntcode input of
-    Just ints -> do
+  case readText input of
+    Right ints -> do
       let source = pretty (disassemble ints)
       Text.hPutStr hout source
-    Nothing -> hPutStrLn stderr "Invalid intcode."
-
-readIntcode :: Text -> Maybe (Vector Int)
-readIntcode input = do
-  let cells = Text.splitOn "," input
-      ints  = map readInt cells
-  fmap Vector.fromList (sequence ints)
-  where
-    readInt s =
-      case Text.signed Text.decimal (Text.dropWhile isSpace s) of
-        Right (i, remain) | Text.all isSpace remain -> Just i
-        _ -> Nothing
+    Left (ReadError _ msg) -> hPutStrLn stderr msg
