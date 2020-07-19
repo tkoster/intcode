@@ -39,3 +39,13 @@ tests:
     - hspec-discover
     - hspec-expectations
     - intcode
+
+executables:
+  intcode:
+    main: Main.hs
+    source-dirs: cli
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    dependencies:
+    - intcode

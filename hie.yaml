@@ -4,3 +4,5 @@ cradle:
       component: "intcode:lib"
     - path: "./test"
       component: "intcode:test:intcode-test"
+    - path: "./cli"
+      component: "intcode:exe:intcode"

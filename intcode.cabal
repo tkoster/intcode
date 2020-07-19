@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8888effd3383de4cfb0889eb37491353d7581393ac8cfa9e5fe45a2c7a55ede7
+-- hash: 6f21591c5e268836d365f281e9b1ffdd75768ef78986e7857d34862a6ea413a6
 
 name:           intcode
 version:        0.1.0.0
@@ -39,6 +39,23 @@ library
   ghc-options: -Wall
   build-depends:
       base >=4.7 && <5
+    , megaparsec
+    , mtl
+    , text
+    , unordered-containers
+    , vector
+  default-language: Haskell2010
+
+executable intcode
+  main-is: Main.hs
+  other-modules:
+      Paths_intcode
+  hs-source-dirs:
+      cli
+  ghc-options: -Wall -threaded -rtsopts
+  build-depends:
+      base >=4.7 && <5
+    , intcode
     , megaparsec
     , mtl
     , text
