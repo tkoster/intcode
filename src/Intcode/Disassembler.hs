@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedLists, OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Intcode.Disassembler (disassemble, zipModeFlags) where
 
@@ -24,7 +24,7 @@ disassemble = go . Vector.toList
       | baseOp == 9, (a : remain)         <- args = instruction "rel" opcode [a]       : go remain
       | baseOp == 99, remain <- args              = instruction "hlt" opcode []        : go remain
       where
-        baseOp = opcode `mod` 100
+        baseOp = if opcode < 0 then opcode else opcode `mod` 100
     go (i : remain) = Line Nothing (Just $ Directive (D "data") [I i]) Nothing : go remain
 
 instruction :: Text -> Int -> [Int] -> Line

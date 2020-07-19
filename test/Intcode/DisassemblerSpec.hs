@@ -20,8 +20,23 @@ spec = do
     it "disassembles a relative argument" $
       disassemble [204, 1] `shouldBe` [Line Nothing (Just $ Instruction (M "out") [RelativeNumber 1]) Nothing]
 
-    it "disassembles unknown values as data" $
+    it "disassembles unknown nonnegative values as data" $
       disassemble [1234] `shouldBe` [Line Nothing (Just $ Directive (D "data") [I 1234]) Nothing]
+
+    it "disassembles negative values as data" $
+      disassemble [-1] `shouldBe` [Line Nothing (Just $ Directive (D "data") [I (-1)]) Nothing]
+
+    it "disassembles 3,9,8,9,10,9,4,9,99,-1,8" $ do
+      let input = [3,9,8,9,10,9,4,9,99,-1,8]
+          ast =
+            [ Line Nothing (Just $ Instruction (M "in") [Number 9]) Nothing
+            , Line Nothing (Just $ Instruction (M "teq") [Number 9, Number 10, Number 9]) Nothing
+            , Line Nothing (Just $ Instruction (M "out") [Number 9]) Nothing
+            , Line Nothing (Just $ Instruction (M "hlt") []) Nothing
+            , Line Nothing (Just $ Directive (D "data") [I (-1)]) Nothing
+            , Line Nothing (Just $ Directive (D "data") [I 8]) Nothing
+            ]
+      disassemble input `shouldBe` ast
 
     it "disassembles the quine program" $ do
       let quineAST =
